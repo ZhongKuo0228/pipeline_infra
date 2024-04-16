@@ -1,12 +1,6 @@
 name: PR Check Terraform Validate And Plan
 
 on:
-  push:
-    branches:
-      - '**'
-    paths:
-      - 'src/**'
-
   pull_request:
     branches:
       - '**'
@@ -31,3 +25,19 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Show Plan
+        id: showplan
+        run: terraform show -json tfplan > plan.json
+        working-directory: src
+      - name: Upload Plan Output as PR Comment
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const planOutput = fs.readFileSync('${{ github.workspace }}/src/plan.json', 'utf8');
+            const issue_number = context.issue.number;
+            github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: issue_number,
+              body: '## Terraform Plan Output\n' + '```' + planOutput + '```'
+            });

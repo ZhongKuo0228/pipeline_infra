@@ -71,7 +71,6 @@ variable "worker_node_key_name" {
 }
 
 # CloudWatch
-
 variable "retention_in_days" {
   type    = number
   default = 3
