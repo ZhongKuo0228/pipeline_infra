@@ -13,15 +13,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
       - name: Init Terraform
         run: terraform init
         working-directory: src
-
       - name: Validate_Terraform
         run: terraform validate
         working-directory: src
-
       - name: Plan_Terraform
         run: terraform plan
         working-directory: src
