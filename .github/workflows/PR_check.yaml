@@ -14,7 +14,7 @@ on:
       - 'src/**'
 
 jobs:
-  terraform_validate:
+  terraform_plan:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
