@@ -8,5 +8,5 @@ output "bastion_ssh_command" {
 
 output "cluster_name" {
   description = "Kubernetes Cluster Name"
-  value       =  module.eks_module.cluster_name
+  value       = module.eks_module.cluster_name
 }
