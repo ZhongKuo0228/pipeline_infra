@@ -1,0 +1,40 @@
+name: PR Check Terraform Validate And Plan
+
+on:
+  pull_request:
+    branches:
+      - '**'
+    paths:
+      - 'src/**'
+
+jobs:
+  terraform_validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Init Terraform
+        run: terraform init
+        working-directory: src
+
+      - name: Validate_Terraform
+        run: terraform validate
+        working-directory: src
+  terraform_validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Init Terraform
+        run: terraform init
+        working-directory: src
+
+      - name: Validate_Terraform
+        run: terraform validate
+        working-directory: src
+
+      - name: Plan_Terraform
+        run: terraform plan
+        working-directory: src
