@@ -1,12 +1,10 @@
 # Region
-
 variable "region" {
   description = "The AWS region to deploy the VPC in."
   default     = "ap-northeast-1"
 }
 
 # VPC
-
 variable "vpc_name" {
   description = "The name of the VPC."
   default     = "task-6-1-vpc"
@@ -36,7 +34,6 @@ variable "private_subnets" {
 }
 
 # EKS cluster 
-
 variable "cluster_name" {
   type    = string
   default = "task-6-1-eks"
@@ -63,7 +60,6 @@ variable "node_group_scaling_min_size" {
 }
 
 # Node Group
-
 variable "node_group_name" {
   type    = string
   default = "task-6-1-workernodes-group"
