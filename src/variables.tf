@@ -77,6 +77,7 @@ variable "retention_in_days" {
 }
 
 # Tag
+
 variable "tags" {
   type = map(string)
   default = {

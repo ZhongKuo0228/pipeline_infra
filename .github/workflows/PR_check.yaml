@@ -1,6 +1,12 @@
 name: PR Check Terraform Validate And Plan
 
 on:
+  push:
+    branches:
+      - '**'
+    paths:
+      - 'src/**'
+
   pull_request:
     branches:
       - '**'
