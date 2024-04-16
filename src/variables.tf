@@ -26,39 +26,39 @@ variable "azs" {
 variable "public_subnets" {
   description = "A list of public subnets."
   type        = list(string)
-  default     = ["10.0.1.0/24","10.0.2.0/24"]
+  default     = ["10.0.1.0/24", "10.0.2.0/24"]
 }
 
 variable "private_subnets" {
   description = "A list of private subnets."
   type        = list(string)
-  default     = ["10.0.101.0/24","10.0.102.0/24"]
+  default     = ["10.0.101.0/24", "10.0.102.0/24"]
 }
 
 # EKS cluster 
 
 variable "cluster_name" {
   type    = string
-  default     = "task-6-1-eks"
+  default = "task-6-1-eks"
 }
 
 variable "node_group_instance_type" {
-  type = list(string)
+  type    = list(string)
   default = ["t3.small"]
 }
 
 variable "node_group_scaling_desired_size" {
-  type = number
+  type    = number
   default = 1
 }
 
 variable "node_group_scaling_max_size" {
-  type = number
+  type    = number
   default = 3
 }
 
 variable "node_group_scaling_min_size" {
-  type = number
+  type    = number
   default = 1
 }
 
@@ -70,20 +70,20 @@ variable "node_group_name" {
 }
 
 variable "worker_node_key_name" {
-  type = string
+  type    = string
   default = "hw_sshkey"
 }
 
 # CloudWatch
 variable "retention_in_days" {
-  type = number
+  type    = number
   default = 3
 }
 
 # Tag
 variable "tags" {
-  type        = map(string)
-  default     = {
+  type = map(string)
+  default = {
     "appworks" : "SRE"
   }
 }
