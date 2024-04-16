@@ -1,0 +1,23 @@
+name: Push Check Terraform Validate
+
+on:
+  push:
+    branches:
+      - '**'
+    paths:
+      - 'src/**'
+
+jobs:
+  terraform_validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Init Terraform
+        run: terraform init
+        working-directory: src
+
+      - name: Validate_Terraform
+        run: terraform validate
+        working-directory: src
