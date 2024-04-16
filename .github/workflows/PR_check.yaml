@@ -27,7 +27,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: Show Plan
         id: showplan
-        run: terraform show -json tfplan > plan.json
+        run: terraform plan -no-color > plan.json
         working-directory: src
       - name: Upload Plan Output as PR Comment
         uses: actions/github-script@v6
