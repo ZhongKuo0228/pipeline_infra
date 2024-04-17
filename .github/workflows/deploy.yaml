@@ -1,0 +1,51 @@
+name: Terraform apply
+
+on:
+  workflow_dispatch:
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+jobs:
+  notify-discord:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send workflow URL to Discord
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d '{"content": "Terraform Apply 準備! 請協助 Approve: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+  terraform_plan:
+    needs: notify-discord
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Create SSH Key File
+        run: |
+          echo "${{ secrets.SSH_PUBLIC_KEY }}" > terraform-ssh-key.pub
+        shell: bash
+        working-directory: src
+      - name: Init Terraform
+        run: terraform init
+        working-directory: src
+      - name: Validate_Terraform
+        run: terraform validate
+        working-directory: src
+      - name: Plan_Terraform
+        run: terraform plan
+        working-directory: src
+
+  terraform_apply:
+    needs: terraform_plan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
