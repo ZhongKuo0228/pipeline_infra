@@ -1,4 +1,7 @@
 .DS_Store
 .*
 !/**/.gitignore
-terraform*
+terraform.*
+.terraform
+terraform-ssh-key
+terraform-ssh-key.pub
