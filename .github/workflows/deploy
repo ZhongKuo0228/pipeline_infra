@@ -2,10 +2,8 @@ name: Terraform apply
 
 on:
   workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Terraform Apply'
-        required: true
+    description: 'Terraform Apply'
+    required: true
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
