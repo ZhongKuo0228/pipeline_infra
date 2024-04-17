@@ -47,5 +47,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Init Terraform
+        run: terraform init
+        working-directory: src
       - name: Terraform Apply
         run: terraform apply -auto-approve
