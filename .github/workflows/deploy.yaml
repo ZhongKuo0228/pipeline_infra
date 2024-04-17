@@ -57,9 +57,9 @@ jobs:
         run: terraform init
       - name: Terraform Apply
         run: |
-          output=$(terraform apply -auto-approve -json)
-          echo "$output"
-          echo "::set-output name=instance_ip::$(echo "$output" | jq -r '.outputs.instance_public_ip.value')"
+          terraform apply -auto-approve
+      - name: Set Output
+        run: echo "::set-output name=instance_ip::$(terraform output -raw INSTANCE_IP)"
 
   deploy:
     needs: terraform_apply
