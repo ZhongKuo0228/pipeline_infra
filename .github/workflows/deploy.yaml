@@ -43,6 +43,8 @@ jobs:
   terraform_apply:
     # needs: terraform_plan
     runs-on: ubuntu-latest
+    outputs:
+      ec2_ip: ${{ steps.ec2_ip.outputs.instance_ip }}
     defaults:
       run:
         working-directory: src
@@ -58,12 +60,17 @@ jobs:
       - name: Terraform Apply
         run: |
           terraform apply -auto-approve
-      - name: Set Output
-        run: echo "::set-output name=instance_ip::$(terraform output -raw INSTANCE_IP)"
+      - name: Save Terraform Output
+        id: ec2_ip
+        run: |
+          instance_ip=$(terraform output -raw INSTANCE_IP)
+          echo "instance_ip=$instance_ip" >> "$GITHUB_OUTPUT"
+
 
   deploy:
     needs: terraform_apply
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
