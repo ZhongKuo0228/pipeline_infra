@@ -75,7 +75,7 @@ jobs:
         uses: actions/checkout@v3
         env:
           PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          HOSTNAME: ${{needs.terraform_apply.outputs.instance_ip}}
+          HOSTNAME: ${{needs.terraform_apply.outputs.ec2_ip}}
           USER_NAME: ${{secrets.EC2_USER}}
       - name: Deploy
         run: |
