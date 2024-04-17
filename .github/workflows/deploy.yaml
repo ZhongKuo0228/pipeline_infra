@@ -23,6 +23,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
+    defaults:
+      run:
+        working-directory: src
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -30,23 +33,21 @@ jobs:
         run: |
           echo "${{ secrets.SSH_PUBLIC_KEY }}" > terraform-ssh-key.pub
         shell: bash
-        working-directory: src
-      - name: Init Terraform
-        run: terraform init
-        working-directory: src
       - name: Validate_Terraform
         run: terraform validate
-        working-directory: src
       - name: Plan_Terraform
         run: terraform plan
-        working-directory: src
 
   terraform_apply:
     needs: terraform_plan
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Init Terraform
+        run: terraform init
       - name: Terraform Apply
         run: terraform apply -auto-approve
-        working-directory: src
