@@ -1,85 +1,49 @@
-# Region
-variable "region" {
-  description = "The AWS region to deploy the VPC in."
+# EC2 Config
+variable "aws_region" {
+  description = "AWS region"
+  type        = string
   default     = "ap-northeast-1"
 }
 
-# VPC
-variable "vpc_name" {
-  description = "The name of the VPC."
-  default     = "task-6-1-vpc"
-}
-
-variable "vpc_cidr" {
-  description = "The CIDR block for the VPC."
+variable "vpc_cidr_block" {
+  description = "CIDR block for the VPC"
+  type        = string
   default     = "10.0.0.0/16"
 }
 
-variable "azs" {
-  description = "A list of availability zones."
+variable "subnet_cidr_block" {
+  description = "CIDR block for the subnet"
+  type        = string
+  default     = "10.0.1.0/24"
+}
+
+variable "ec2_instance_type" {
+  description = "EC2 instance type"
+  type        = string
+  default     = "t2.micro"
+}
+
+variable "ami_name_pattern" {
+  description = "Pattern to match the AMI name"
+  type        = string
+  default     = "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"
+}
+
+variable "ami_virtualization_type" {
+  description = "Virtualization type of the AMI"
+  type        = string
+  default     = "hvm"
+}
+
+variable "ami_owners" {
+  description = "List of owners for the AMI"
   type        = list(string)
-  default     = ["ap-northeast-1a", "ap-northeast-1c", "ap-northeast-1d"]
+  default     = ["099720109477"] # Canonical 的 AWS 帳號 ID
 }
 
-variable "public_subnets" {
-  description = "A list of public subnets."
-  type        = list(string)
-  default     = ["10.0.1.0/24", "10.0.2.0/24"]
-}
 
-variable "private_subnets" {
-  description = "A list of private subnets."
-  type        = list(string)
-  default     = ["10.0.101.0/24", "10.0.102.0/24"]
-}
-
-# EKS cluster 
-variable "cluster_name" {
-  type    = string
-  default = "task-6-1-eks"
-}
-
-variable "node_group_instance_type" {
-  type    = list(string)
-  default = ["t3.small"]
-}
-
-variable "node_group_scaling_desired_size" {
-  type    = number
-  default = 1
-}
-
-variable "node_group_scaling_max_size" {
-  type    = number
-  default = 3
-}
-
-variable "node_group_scaling_min_size" {
-  type    = number
-  default = 1
-}
-
-# Node Group
-variable "node_group_name" {
-  type    = string
-  default = "task-6-1-workernodes-group"
-}
-
-variable "worker_node_key_name" {
-  type    = string
-  default = "hw_sshkey"
-}
-
-# CloudWatch
-variable "retention_in_days" {
-  type    = number
-  default = 3
-}
-
-# Tag
-variable "tags" {
-  type = map(string)
-  default = {
-    "appworks" : "SRE"
-  }
+variable "ec2_iam_role" {
+  description = "EC2 iam role"
+  type        = string
+  default     = "reader"
 }
