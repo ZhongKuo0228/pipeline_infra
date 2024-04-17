@@ -15,6 +15,9 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     permissions:
       pull-requests: write
+    defaults:
+      run:
+        working-directory: src
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -22,21 +25,16 @@ jobs:
         run: |
           echo "${{ secrets.SSH_PUBLIC_KEY }}" > terraform-ssh-key.pub
         shell: bash
-        working-directory: src
       - name: Init Terraform
         run: terraform init
-        working-directory: src
       - name: Validate_Terraform
         run: terraform validate
-        working-directory: src
       - name: Plan_Terraform
         run: terraform plan
-        working-directory: src
       - name: Show Plan
         id: showplan
         run: |
           terraform plan -no-color > plan.txt
-        working-directory: src
       - name: Upload Plan Output as PR Comment
         uses: mshick/add-pr-comment@v2
         with:

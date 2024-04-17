@@ -13,6 +13,9 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    defaults:
+      run:
+        working-directory: src
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -21,12 +24,9 @@ jobs:
         run: |
           echo "${{ secrets.SSH_PUBLIC_KEY }}" > terraform-ssh-key.pub
         shell: bash
-        working-directory: src
 
       - name: Init Terraform
         run: terraform init
-        working-directory: src
 
       - name: Validate_Terraform
         run: terraform validate
-        working-directory: src
