@@ -79,6 +79,7 @@ jobs:
           USER_NAME: ${{secrets.EC2_USER}}
       - name: Deploy
         run: |
+          echo "$HOSTNAME"
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
           ssh -i private_key ${USER_NAME}@${HOSTNAME}
           touch ${{ github.run_id }}
