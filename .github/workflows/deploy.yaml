@@ -70,16 +70,15 @@ jobs:
   deploy:
     needs: terraform_apply
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Setup SSH and execute commands on jump server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ needs.terraform_apply.outputs.instance_ip }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          script: |
-            touch ${{ github.run_id }}
+        env:
+          PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          HOSTNAME: ${{needs.terraform_apply.outputs.instance_ip}}
+          USER_NAME: ${{secrets.EC2_USER}}
+      - name: Deploy
+        run: |
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+          touch ${{ github.run_id }}
