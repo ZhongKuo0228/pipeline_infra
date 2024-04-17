@@ -66,7 +66,6 @@ jobs:
         run: |
           instance_ip=$(terraform output -raw INSTANCE_IP)
           echo "instance_ip=$instance_ip" >> "$GITHUB_OUTPUT"
-          echo "test=hello" >> "$GITHUB_OUTPUT"
 
 
   deploy:
@@ -80,10 +79,7 @@ jobs:
           PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           HOSTNAME: ${{needs.terraform_apply.outputs.ec2_ip}}
           USER_NAME: ${{secrets.EC2_USER}}
-          OUTPUT1: ${{needs.terraform_apply.outputs.output1}}
         run: |
-          echo "$HOSTNAME"
-          echo "$OUTPUT1"
-          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          echo "$PRIVATE_KEY" > private_key && chmod 400 private_key
           ssh -i private_key ${USER_NAME}@${HOSTNAME}
           touch ${{ github.run_id }}
