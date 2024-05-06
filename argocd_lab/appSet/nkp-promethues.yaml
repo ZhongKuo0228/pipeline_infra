@@ -4,15 +4,16 @@ metadata:
   name: test-prometheus
 spec:
   generators:
-    - clusters:
-        selector:
-          matchLabels:
-            argocd.argoproj.io/secret-type: cluster
+    - list:
+        elements:
+          - name: in-cluster
+            url: https://kubernetes.default.svc
+            namespace: default
   syncPolicy:
     preserveResourcesOnDeletion: false
   template:
     metadata:
-      name: "{{ name }}-prometheus"
+      name: "{{name}}-prometheus-argocd-service-monitor"
     spec:
       project: test-system
       sources:
@@ -22,7 +23,8 @@ spec:
           directory:
             recurse: true
       destination:
-        server: "{{ server }}"
+        server: "{{url}}"
+        namespace: "{{namespace}}"
       syncPolicy:
         automated:
           selfHeal: true
