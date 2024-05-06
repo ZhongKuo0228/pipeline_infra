@@ -15,7 +15,7 @@ spec:
     metadata:
       name: "{{name}}-prometheus-argocd-service-monitor"
     spec:
-      project: test-system
+      project: argo-system
       sources:
         - repoURL: https://github.com/ZhongKuo0228/pipeline_infra.git
           targetRevision: main
