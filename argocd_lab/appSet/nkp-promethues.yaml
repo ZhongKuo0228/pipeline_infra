@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: test-prometheus
+spec:
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            argocd.argoproj.io/secret-type: cluster
+  syncPolicy:
+    preserveResourcesOnDeletion: false
+  template:
+    metadata:
+      name: "{{ name }}-prometheus"
+    spec:
+      project: test-system
+      sources:
+        - repoURL: https://github.com/ZhongKuo0228/pipeline_infra.git
+          targetRevision: main
+          path: argocd_lab/lab
+          directory:
+            recurse: true
+      destination:
+        server: "{{ server }}"
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true
